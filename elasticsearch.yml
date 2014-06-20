@@ -1,0 +1,8 @@
+---
+# Elasticsearch Ansible Playbook
+- hosts: elasticsearchservers
+  remote_user: root
+  sudo: yes
+  roles:
+    - common
+    - elasticsearch
