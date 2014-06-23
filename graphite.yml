@@ -1,0 +1,5 @@
+- hosts: graphite
+  remote_user: root
+  sudo: yes
+  roles:
+     - { role: jmartin.graphite }

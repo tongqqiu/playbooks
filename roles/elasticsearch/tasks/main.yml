@@ -33,10 +33,10 @@
 
 # Install Java on RedHat
 # TODO: update the jdk version
-- name: Download and install oracle jdk
-  shell: "creates='~/jdk-7u60-linux-x64.rpm' curl -LO http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-x64.rpm -H 'Cookie: oraclelicense=accept-securebackup-cookie' ; rpm -i jdk-7u51-linux-x64.rpm"
-  when: elasticsearch_install_java and ansible_os_family == "RedHat"
-  ignore_errors: yes
+# - name: Download and install oracle jdk
+#   shell: "creates='~/jdk-7u60-linux-x64.rpm' curl -LO http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-x64.rpm -H 'Cookie: oraclelicense=accept-securebackup-cookie' ; rpm -i jdk-7u51-linux-x64.rpm"
+#   when: elasticsearch_install_java and ansible_os_family == "RedHat"
+#   ignore_errors: yes
 
 # Configure user and group
 - name: Configuring user and group
@@ -96,7 +96,7 @@
   when: elasticsearch_plugin_dir is defined
 - file: path={{ elasticsearch_plugin_dir }} state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
   when: elasticsearch_plugin_dir is defined
-
+  
 # Configure open file limits
 - name: Configuring open file limits
   shell: "echo Configuring open file limits"
