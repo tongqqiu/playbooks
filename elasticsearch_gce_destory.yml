@@ -1,0 +1,52 @@
+
+- name: Terminate instances
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    service_account_email: 314151147552-b1ii5ltn8i7qh9c9mig4ef8l7skuhleu@developer.gserviceaccount.com
+    pem_file: /Users/tongqingqiu/Documents/Projects/Puppet/Beaker/gce/pkey.pem
+    project_id: compact-scene-578
+    machine_type:  n1-standard-1
+    image: centos-6
+    host_names: 
+      - dev1
+      - dev2
+      - dev3
+
+  tasks:
+      - name: Terminate instances
+        local_action:
+          module: gce
+          instance_names: "{{host_names}}"
+          service_account_email: "{{ service_account_email }}"
+          pem_file: "{{ pem_file }}"
+          project_id: "{{ project_id }}"
+          state: 'absent' 
+
+- name: Delete disks
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    service_account_email: 314151147552-b1ii5ltn8i7qh9c9mig4ef8l7skuhleu@developer.gserviceaccount.com
+    pem_file: /Users/tongqingqiu/Documents/Projects/Puppet/Beaker/gce/pkey.pem
+    project_id: compact-scene-578
+    host_names: 
+      - dev1
+      - dev2
+      - dev3
+
+  tasks:
+      - name: Delete disks
+        local_action:
+          module: gce_pd
+          name: "{{ item }}"
+          service_account_email: "{{ service_account_email }}"
+          pem_file: "{{ pem_file }}"
+          project_id: "{{ project_id }}"
+          state: 'deleted' 
+          zone: "us-central1-a"
+        with_items: "{{ host_names }}"

@@ -1,0 +1,3 @@
+service_account_email: 314151147552-b1ii5ltn8i7qh9c9mig4ef8l7skuhleu@developer.gserviceaccount.com
+pem_file: /Users/tongqingqiu/Documents/Projects/Puppet/Beaker/gce/pkey.pem
+project_id: compact-scene-578

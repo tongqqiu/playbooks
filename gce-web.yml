@@ -1,0 +1,25 @@
+- name: Setup web servers
+  hosts: tag_webserver
+  remote_user: google_compute
+  sudo: yes
+  gather_facts: no
+
+  vars:
+  vars_files:
+    - host_vars/gce_vars.yml  
+
+  tasks:
+    - name: Install lighttpd
+      apt: pkg=lighttpd state=installed
+      sudo: True
+
+    - name: Allow HTTP
+      local_action: gce_net
+      args:
+        fwname: "all-http"
+        name: "default"
+        allowed: "tcp:80"
+        state: "present"
+        service_account_email: "{{ service_account_email }}"
+        pem_file: "{{ pem_file }}"
+        project_id: "{{ project_id }}"

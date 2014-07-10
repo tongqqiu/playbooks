@@ -1,0 +1,51 @@
+
+- name: Terminate instances
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    host_names: 
+      - dev1
+      - dev2 
+      - dev3
+      - dev4 
+      - dev5
+  vars_files:
+    - host_vars/gce_vars.yml
+
+  tasks:
+      - name: Terminate instances
+        local_action:
+          module: gce
+          instance_names: "{{host_names}}"
+          service_account_email: "{{ service_account_email }}"
+          pem_file: "{{ pem_file }}"
+          project_id: "{{ project_id }}"
+          state: 'absent' 
+
+- name: Delete disks
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    host_names: 
+      - dev1
+      - dev2 
+      - dev3
+      - dev4 
+      - dev5      
+  vars_files:
+    - host_vars/gce_vars.yml
+  tasks:
+      - name: Delete disks
+        local_action:
+          module: gce_pd
+          name: "{{ item }}"
+          state: 'deleted' 
+          zone: "us-central1-a"
+          service_account_email: "{{ service_account_email }}"
+          pem_file: "{{ pem_file }}"
+          project_id: "{{ project_id }}"          
+        with_items: "{{ host_names }}"
